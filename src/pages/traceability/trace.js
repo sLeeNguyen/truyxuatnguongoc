@@ -3,10 +3,13 @@ import {Component} from 'react'
 import {Col, Row, Container, Table} from 'react-bootstrap';
 import {useParams} from 'react-router-dom'
 import '../style.css';
+import PageLoading from '../loading/pageloading';
 import {API_URL} from '../../config/constants';
 import {notifySuccess, notifyError, notifyInfo} from '../notify';
+import backImg from '../resources/back.png';
+
 var dateFormat = require("dateformat");
-const format = "dd/mm/yyyy";
+const format = "hh:MM:ss dd/mm/yyyy";
 
 class TraceProduct extends Component {
     constructor(props) {
@@ -28,8 +31,11 @@ class TraceProduct extends Component {
             .then(res => res.json())
             .then(
               (result) => {
+                // sort result by time
+                result.sort(function(item1, item2) {
+                    return parseInt(item2.time) - parseInt(item1.time);
+                });
                 this.setState({productAction: result});
-                console.log(this.state.productAction);
             },
               (error) => {
                   console.log(error);
@@ -41,7 +47,7 @@ class TraceProduct extends Component {
     render() {
         var {productAction} = this.state;
         if (!productAction) {
-            return <div>loading...</div>
+            return <PageLoading/>;
         }
         else {
             var product = productAction[0];
@@ -98,6 +104,7 @@ class TraceProduct extends Component {
                             </div>
                         </Col>
                     </Row>
+                    <div class="back"><img src={backImg}/></div>
                 </Container>
             );
         }
