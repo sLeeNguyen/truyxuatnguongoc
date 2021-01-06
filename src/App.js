@@ -8,6 +8,7 @@ import {
 
 import './App.css';
 import Product from './pages/product-info/product';
+import PageLoading from './pages/loading/pageloading';
 import TraceProduct from './pages/traceability/trace';
 import {API_URL} from './config/constants';
 import {notifySuccess, notifyError, notifyInfo} from './pages/notify';
@@ -32,13 +33,14 @@ function App() {
       .then(res => res.json())
       .then(
         (result) => {
-          setIsLoaded(true);
           if (result.status == "Failure") {
             setError(true);
+            setIsLoaded(true);
             notifyError("Lỗi", result.details);
           } else {
             localStorage.setItem("token", result.authorization);
             localStorage.setItem("role", result.role);
+            setIsLoaded(true);
             notifyInfo("Thành công", "Đăng nhập thành công");
           }
         },
@@ -52,7 +54,7 @@ function App() {
     return <div>.</div>;
   }
   else if (!isLoaded) {
-    return <div>Loading...</div>
+    return <PageLoading/>;
   } 
   else {
     return (
