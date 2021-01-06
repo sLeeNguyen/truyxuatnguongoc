@@ -6,7 +6,7 @@ import '../style.css';
 import {API_URL} from '../../config/constants';
 import {notifySuccess, notifyError, notifyInfo} from '../notify';
 var dateFormat = require("dateformat");
-const format = "dd/mm/yyyy";
+const format = "dd/mm/yyyy hh:mm:ss";
 
 class TraceProduct extends Component {
     constructor(props) {
@@ -40,6 +40,8 @@ class TraceProduct extends Component {
 
     render() {
         var {productAction} = this.state;
+        console.log('=== productAction ===');
+        console.log(productAction)
         if (!productAction) {
             return <div>loading...</div>
         }
@@ -86,8 +88,10 @@ class TraceProduct extends Component {
                                                     <tr>
                                                         <td>{index + 1}</td>
                                                         <td>{item.action}</td>
+                                                        {/* {dateFormat(parseInt(item.time), format)} */}
                                                         <td>{dateFormat(parseInt(item.time), format)}</td>
-                                                        <td title={`Mã hoạt động: ${item.txid}`}>{item.txid.substring(0,30) + "..."}</td>
+                                                        {/* <td>{parseInt(item.time)}</td> */}
+                                                        <td title={`Mã hoạt động: ${item.txid}`}><a href={"http://134.209.108.73:5000/#/transactions/" + item.txid} target="_blank">{item.txid.substring(0,30) + "..."}</a></td>
                                                     </tr>
                                                 )
                                             })}
