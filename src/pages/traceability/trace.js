@@ -3,6 +3,7 @@ import {Component} from 'react'
 import {Col, Row, Container, Table} from 'react-bootstrap';
 import {useParams} from 'react-router-dom'
 import '../style.css';
+import {Link} from "react-router-dom";
 import PageLoading from '../loading/pageloading';
 import {API_URL} from '../../config/constants';
 import {notifySuccess, notifyError, notifyInfo} from '../notify';
@@ -17,6 +18,10 @@ class TraceProduct extends Component {
         this.state = {
           productAction: null,
         };
+    }
+
+    onBack() {
+        window.location.replace('/');
     }
 
     componentDidMount() {
@@ -104,7 +109,9 @@ class TraceProduct extends Component {
                             </div>
                         </Col>
                     </Row>
-                    <div class="back"><img src={backImg}/></div>
+                    <div class="back">
+                        <Link to="/"><img src={backImg}/></Link>
+                    </div>
                 </Container>
             );
         }
